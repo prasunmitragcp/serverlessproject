@@ -1,0 +1,150 @@
+AWS Serverless
+
+AWS Access Key: *********
+Secret: ********
+
+1. IAM (Add user with Administrator access)
+2. Install server less in local (sudo npm install -g serverless
+
+
+Nerveless Authentication in AWS
+
+prasunmitra@Prasuns-MacBook-Pro peterproject % serverless config credentials --provider aws --key  ********* --secret *********** --profile Prasun
+(node:23102) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+✔ Profile "Prasun" has been configured
+prasunmitra@Prasuns-MacBook-Pro peterproject % 
+
+
+====================================
+Create new serverless project and deploy
+====================================
+
+Create serverless folder
+—————————————
+
+prasunmitra@Prasuns-MacBook-Pro ~ % serverless create --template aws-nodejs --path serverlessproject 
+(node:23163) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+✔ Project successfully created in "serverlessproject" from "aws-nodejs" template (2s)
+prasunmitra@Prasuns-MacBook-Pro ~ % ls
+—————————————
+
+
+Update serverless.yml 
+————————————
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  profile: Prasun              //Added this line
+————————————
+
+Deploy Serverless Project
+—————————————
+
+rasunmitra@Prasuns-MacBook-Pro serverlessproject % sls deploy
+(node:23342) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+Deploying serverlessproject to stage dev (us-east-1)
+
+✔ Service deployed to stack serverlessproject-dev (122s)
+
+functions:
+  hello: serverlessproject-dev-hello (392 B)
+
+Need a faster logging experience than CloudWatch? Try our Dev Mode in Console: run "serverless dev"
+prasunmitra@Prasuns-MacBook-Pro serverlessproject % 
+
+===================================================
+
+Deploy an S3 bucket and Upload Data
+————————————————————
+
+Configuration serverless.yml
+————————
+
+
+resources:
+  Resources:
+    prasunBucketUpload:
+      Type: AWS::S3::Bucket
+      Properties: 
+        BucketName: serverlessprojectuploadprasun-252755
+
+
+Deploy
+—————
+prasunmitra@Prasuns-MacBook-Pro serverlessproject % sls deploy
+(node:23606) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+Deploying serverlessproject to stage dev (us-east-1)
+
+✔ Service deployed to stack serverlessproject-dev (75s)
+
+functions:
+  hello: serverlessproject-dev-hello (392 B)
+
+Need a faster logging experience than CloudWatch? Try our Dev Mode in Console: run "serverless dev"
+prasunmitra@Prasuns-MacBook-Pro serverlessproject % 
+
+============================
+
+
+Upload data configuration serverless.yml
+—————
+plugins:
+    - serverless-s3-sync
+
+custom:
+    s3Sync:
+      - bucketName: serverlessprojectuploadprasun-252755
+        localDir: uploaddata
+
+Serverless command for upload data
+
+npm install --save serverless-s3-sync
+
+
+Deploy Scalable API
+
+serverless.yml file configuration 
+
+functions:
+  getUser:
+    handler: lambds/getUser.handler
+    events:
+      - http:
+          path: get-user/{ID}
+          method: GET
+          cors: true
+
+prasunmitra@Prasuns-MacBook-Pro serverlessproject % sls deploy
+Running "serverless" from node_modules
+(node:25570) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+
+Deploying serverlessproject to stage dev (us-east-1)
+
+✔ Service deployed to stack serverlessproject-dev (88s)
+
+endpoint: GET - https://4a99rud3f8.execute-api.us-east-1.amazonaws.com/dev/get-user/{ID}
+functions:
+  getUser: serverlessproject-dev-getUser (35 MB)
+
+Need a faster logging experience than CloudWatch? Try our Dev Mode in Console: run "serverless dev"
+prasunmitra@Prasuns-MacBook-Pro serverlessproject % 
+
+
+
+
+
+
+
+ 
+ 
+
+
