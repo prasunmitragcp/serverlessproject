@@ -7,7 +7,7 @@ Secret: ********
 2. Install server less in local (sudo npm install -g serverless
 
 
-Nerveless Authentication in AWS
+Serverless Authentication in AWS
 
 prasunmitra@Prasuns-MacBook-Pro peterproject % serverless config credentials --provider aws --key  ********* --secret *********** --profile Prasun
 (node:23102) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
